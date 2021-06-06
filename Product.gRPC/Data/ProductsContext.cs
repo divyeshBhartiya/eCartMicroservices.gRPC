@@ -10,7 +10,6 @@ namespace Product.gRPC.Data
     public class ProductsContext : DbContext
     {
         public ProductsContext(DbContextOptions<ProductsContext> options) : base(options) { }
-
         public DbSet<Products> Product { get; set; }
     }
 }
