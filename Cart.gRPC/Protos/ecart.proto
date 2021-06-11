@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+option csharp_namespace = "Cart.gRPC.Protos";
+
+service CartProtoService {
+
+  rpc GetCart (GetCartRequest) returns (CartModel);
+
+  rpc CreateCart (CartModel) returns (CartModel);
+  
+  rpc AddItemIntoCart (stream AddItemIntoCartRequest) returns (AddItemIntoCartResponse);
+  rpc RemoveItemIntoCart (RemoveItemFromCartRequest) returns (RemoveItemFromCartResponse);
+}
+
+message GetCartRequest {
+  string username = 1;
+}
+
+message AddItemIntoCartRequest{
+  string username = 1;
+  string discountCode = 2;
+  CartItemModel newCartItem = 3;
+}
+
+message AddItemIntoCartResponse{
+  bool success = 1;
+  int32 insertCount = 2;
+}
+
+message RemoveItemFromCartRequest {
+  string username = 1;
+  CartItemModel removeCartItem = 2;
+}
+
+message RemoveItemFromCartResponse {
+  bool success = 1;
+}
+
+message CartModel {	
+	string username = 1;
+	repeated CartItemModel cartItems = 2;
+}
+
+message CartItemModel {
+	int32 quantity = 1;
+	string color = 2;
+	float price = 3;
+	int32 productId = 4;
+	string productname = 5;
+}
