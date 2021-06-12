@@ -11,7 +11,7 @@ namespace Cart.gRPC.Data
     {
         public CartContext(DbContextOptions<CartContext> options) : base(options) { }
 
-        public DbSet<eCart> ShoppingCart { get; set; }
-        public DbSet<CartItem> ShoppingCartItem { get; set; }
+        public DbSet<eCart> eCart { get; set; }
+        public DbSet<CartItem> eCartItem { get; set; }
     }
 }
