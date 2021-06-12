@@ -9,7 +9,7 @@ service CartProtoService {
   rpc CreateCart (CartModel) returns (CartModel);
   
   rpc AddItemIntoCart (stream AddItemIntoCartRequest) returns (AddItemIntoCartResponse);
-  rpc RemoveItemIntoCart (RemoveItemFromCartRequest) returns (RemoveItemFromCartResponse);
+  rpc RemoveItemFromCart (RemoveItemFromCartRequest) returns (RemoveItemFromCartResponse);
 }
 
 message GetCartRequest {

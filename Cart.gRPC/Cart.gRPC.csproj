@@ -13,10 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Protobuf Include="Protos\ecart.proto" GrpcServices="Server" />
   </ItemGroup>
 

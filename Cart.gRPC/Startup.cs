@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Cart.gRPC.Data;
+using Cart.gRPC.Services;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -17,8 +19,7 @@ namespace Cart.gRPC
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<CartContext>(options =>
-                   options.UseInMemoryDatabase("ShoppingCart"));
+            services.AddDbContext<CartContext>(options => options.UseInMemoryDatabase("ECart"));
 
             services.AddGrpc(opt =>
             {
@@ -40,7 +41,7 @@ namespace Cart.gRPC
 
             app.UseEndpoints(endpoints =>
             {
-                // endpoints.MapGrpcService<CartService>();
+                endpoints.MapGrpcService<CartService>();
 
                 endpoints.MapGet("/", async context =>
                 {
