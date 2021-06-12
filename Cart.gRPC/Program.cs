@@ -1,4 +1,6 @@
+using Cart.gRPC.Data;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
@@ -12,7 +14,9 @@ namespace Cart.gRPC
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            var host = CreateHostBuilder(args).Build();
+            SeedDatabase(host);
+            host.Run();
         }
 
         // Additional configuration is required to successfully run gRPC on macOS.
@@ -23,5 +27,13 @@ namespace Cart.gRPC
                 {
                     webBuilder.UseStartup<Startup>();
                 });
+
+        private static void SeedDatabase(IHost host)
+        {
+            using var scope = host.Services.CreateScope();
+            var services = scope.ServiceProvider;
+            var cartContext = services.GetRequiredService<CartContext>();
+            CartContextSeed.SeedAsync(cartContext);
+        }
     }
 }
