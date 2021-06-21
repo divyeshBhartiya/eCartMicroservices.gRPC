@@ -1,12 +1,12 @@
 {
   "profiles": {
-    "Cart.gRPC": {
+    "Discount.gRPC": {
       "commandName": "Project",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "dotnetRunMessages": "true",
-      "applicationUrl": "http://localhost:5001"
+      "applicationUrl": "http://localhost:5002"
     }
   }
 }
