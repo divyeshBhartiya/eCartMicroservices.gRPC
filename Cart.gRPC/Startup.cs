@@ -1,15 +1,14 @@
 ﻿using Cart.gRPC.Data;
 using Cart.gRPC.Services;
+using Discount.gRPC.Protos;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Configuration;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Cart.gRPC
 {
@@ -17,6 +16,11 @@ namespace Cart.gRPC
     {
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
+        public IConfiguration Configuration { get; }
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<CartContext>(options => options.UseInMemoryDatabase("ECart"));
@@ -27,6 +31,9 @@ namespace Cart.gRPC
             });
 
             services.AddAutoMapper(typeof(Startup));
+            services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>
+                (o => o.Address = new Uri(Configuration["GrpcConfigs:DiscountUrl"]));
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
