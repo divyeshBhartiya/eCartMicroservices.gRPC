@@ -73,7 +73,7 @@ namespace CartWorkerService
                     };
 
                     await cartClientStream.RequestStream.WriteAsync(addNewCartItem);
-                    _logger.LogInformation("Cart Client Stream Added New Item : {addNewScItem}", addNewCartItem);
+                    _logger.LogInformation("Cart Client Stream Added New Item : {addNewCartItem}", addNewCartItem);
                 }
                 await cartClientStream.RequestStream.CompleteAsync();
 
