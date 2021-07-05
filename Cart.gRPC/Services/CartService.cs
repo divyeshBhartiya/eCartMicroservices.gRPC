@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Cart.gRPC.Services
 {
-    // [Authorize]
+    [Authorize]
     public class CartService : CartProtoService.CartProtoServiceBase
     {
         private readonly CartContext _cartDbContext;

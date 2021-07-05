@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
 using System;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Cart.gRPC
 {
@@ -35,6 +36,18 @@ namespace Cart.gRPC
                 (o => o.Address = new Uri(Configuration["GrpcConfigs:DiscountUrl"]));
 
             services.AddScoped<DiscountService>();
+
+            services.AddAuthentication("Bearer")
+             .AddJwtBearer("Bearer", options =>
+             {
+                 options.Authority = "https://localhost:5005";
+                 options.TokenValidationParameters = new TokenValidationParameters
+                 {
+                     ValidateAudience = false
+                 };
+             });
+
+            services.AddAuthorization();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,6 +59,8 @@ namespace Cart.gRPC
             }
 
             app.UseRouting();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

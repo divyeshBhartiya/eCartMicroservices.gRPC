@@ -1,6 +1,7 @@
 using Cart.gRPC.Protos;
 using Grpc.Core;
 using Grpc.Net.Client;
+using IdentityModel.Client;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -8,6 +9,7 @@ using Product.gRPC.Protos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -119,7 +121,38 @@ namespace CartWorkerService
 
         private async Task<string> GetTokenFromIS4()
         {
-            return string.Empty;
+            _logger.LogInformation("GetTokenFromIS4 Started..");
+
+            // discover endpoints from metadata
+            var client = new HttpClient();
+            var disco = await client.GetDiscoveryDocumentAsync(_config.GetValue<string>("WorkerService:IdentityServerUrl"));
+            if (disco.IsError)
+            {
+                _logger.LogError(disco.Error);
+                return string.Empty;
+            }
+
+            _logger.LogInformation("Discovery endpoint taken from IS4 metadata. Discovery : {disco}", disco.TokenEndpoint); 
+
+            // request token
+            var tokenResponse = await client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
+            {
+                Address = disco.TokenEndpoint,
+
+                ClientId = "CartClient",
+                ClientSecret = "secret",
+                Scope = "CartAPI"
+            });
+
+            if (tokenResponse.IsError)
+            {
+                _logger.LogError(tokenResponse.Error);
+                return string.Empty;
+            }
+
+            _logger.LogInformation("Token retrieved for IS4. Token : {token}", tokenResponse.AccessToken);
+
+            return tokenResponse.AccessToken;
         }
     }
 }
