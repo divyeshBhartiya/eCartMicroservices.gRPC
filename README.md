@@ -1,4 +1,8 @@
 # eCartMicroservices.gRPC
+
+![gRPC Communication](https://user-images.githubusercontent.com/16538471/124595497-ba6ec800-de7e-11eb-8ae8-9aab08f354fd.png)
+
+
 Developing a real world e-commerce use case with only gRPC communication. We will have 3 gRPC services, Product, Cart and Discount.
 Apart form gRPC services we will also use Worker Services for creation of Products and Cart.
 
@@ -48,4 +52,5 @@ With IdentityServer, we can provide protect our Cart gRPC services with OAuth 2.
 
 ## Courtesy: 
 https://www.udemy.com
+
 Mehmet Özkaya: https://medium.com/aspnetrun
